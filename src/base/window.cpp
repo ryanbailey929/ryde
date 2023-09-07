@@ -60,3 +60,14 @@ Window::Window(std::string title, int width, int height)
             ((Window*) glfwGetWindowUserPointer(window))->cursor_callback(x, y);
         });
 }
+
+bool Window::time_for_next_update()
+{
+    double current_time = glfwGetTime();
+    if(current_time >= (time_of_last_frame + (1.0f/ups)))
+    {
+        time_of_last_frame = current_time;
+        return true;
+    }
+    return false;
+}

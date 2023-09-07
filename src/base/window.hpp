@@ -11,6 +11,8 @@
 
 class Window
 {
+    static constexpr int ups {60}; //how many times the window will update per second
+    inline static double time_of_last_frame {0};
 protected:
     GLFWwindow *window;
 public:
@@ -24,6 +26,7 @@ public:
     virtual void cursor_callback(double x, double y) {}
 
     bool should_close() {return glfwWindowShouldClose(window);}
+    static bool time_for_next_update();
 };
 
 #endif

@@ -18,6 +18,7 @@ int main()
     }
     while(!main_window->should_close())
     {
+        while(!MainWindow::time_for_next_update()); //limit the ups
         main_window->update();
     }
     
