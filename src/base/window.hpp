@@ -18,6 +18,7 @@ protected:
 public:
     Window(std::string title, int width, int height);
     virtual void update()=0;
+    virtual void update_projection(int width, int height)=0;
     
     //the below functions are  called by GLFW
     virtual void key_callback(int key, int action, int mods) {}

@@ -3,12 +3,15 @@
 #include "widget.hpp"
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <string>
+#include <array>
 
 unsigned int Widget::create_shader(std::string shader_source, ShaderType shader_type)
 {
@@ -56,7 +59,7 @@ void Widget::link_check(unsigned int shader_program)
 {
     char info_log[512];
     int success;
-    glGetShaderiv(shader_program, GL_LINK_STATUS, &success);
+    glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
     if(!success)
     {
         glGetProgramInfoLog(shader_program, 512, nullptr, info_log);
@@ -65,7 +68,7 @@ void Widget::link_check(unsigned int shader_program)
     }
 }
 
-float* create_quad_vertices(float x, float y, float width, float height,
+float* Widget::create_quad_vertices(float x, float y, float width, float height,
                                    float z)
 {
     return new float[12] { x,         y,          z,
@@ -74,8 +77,46 @@ float* create_quad_vertices(float x, float y, float width, float height,
                            x,         y + height, z};
 }
 
-unsigned int* create_quad_indices()
+unsigned int* Widget::create_quad_indices()
 {
-    return new unsigned int[6] {0, 1, 2,
-                                1, 3, 2};
+    return new unsigned int[6] {1, 2, 3,
+                                0, 1, 3};
+}
+
+void Widget::set_color_uniform_3D(int color_uniform, std::array<int, 3> color_vec)
+{
+    glUniform3f(color_uniform,
+                color_vec[0]/255.0f, color_vec[1]/255.0f, color_vec[2]/255.0f);
+}
+
+void Widget::set_matrix_uniform_4D(int matrix_uniform, glm::mat4 matrix)
+{
+    glUniformMatrix4fv(matrix_uniform, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void Widget::generate_VAO_VBO_EBO(float* vertices, int vertices_length,
+                                  unsigned int* indices, int indices_length,
+                                  unsigned int& VAO, unsigned int& VBO,
+                                  unsigned int& EBO)
+{
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices_length*sizeof(float), vertices,
+                 GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_length*sizeof(unsigned int), indices,
+                 GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindVertexArray(0);
+
+    delete[] vertices;
+    delete[] indices;
 }

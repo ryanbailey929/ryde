@@ -5,16 +5,37 @@
 #include "base/window.hpp"
 #include "colors.hpp"
 
+#include "widgets/main_area.hpp"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <string>
 #include <array>
+#include <memory>
 
 MainWindow::MainWindow(std::string title, int width, int height)
                       : Window(title, width, height)
 {
+    //this sets monitor_width and monitor_height
+    glfwGetMonitorWorkarea(glfwGetPrimaryMonitor(), nullptr, nullptr, &monitor_width,
+                           &monitor_height);
 
+    main_area_x = monitor_width*(1/8.0f);
+    main_area_y = 0;
+    main_area_width = monitor_width*(7/8.0f);
+    main_area_height = monitor_height*(9.6f/10.0f);
+
+    main_area = std::unique_ptr<MainArea> {new MainArea
+        {main_area_x, main_area_y, main_area_width, main_area_height,
+         MainWindowZ::MAIN_AREA}};
+
+    projection = glm::ortho(0.0f, (float) width, (float) monitor_height - height,
+                            (float) monitor_height, -MainWindowZ::MIN_Z,
+                            -MainWindowZ::MAX_Z);
 }
 
 void MainWindow::update()
@@ -25,9 +46,18 @@ void MainWindow::update()
                  (Colors::side_panel_background_color[1]/255.0f),
                  (Colors::side_panel_background_color[2]/255.0f),
                  1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    main_area->draw(projection);
 
     glfwSwapBuffers(window);
+}
+
+void MainWindow::update_projection(int width, int height)
+{
+    projection = glm::ortho(0.0f, (float) width, (float) monitor_height - height,
+                            (float) monitor_height, -MainWindowZ::MIN_Z,
+                            -MainWindowZ::MAX_Z);
 }
 
 void MainWindow::key_callback(int key, int action, int mods)

@@ -24,11 +24,11 @@ Window::Window(std::string title, int width, int height)
     }
     glfwMakeContextCurrent(window);
     if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-     {
+    {
          glfwTerminate();
          std::cerr << "[Window::Window] Failed to initialise GLAD.";
          throw -1;
-     }
+    }
 
     glViewport(0, 0, width, height);
     glfwSetWindowUserPointer(window, this);
@@ -36,6 +36,8 @@ Window::Window(std::string title, int width, int height)
         [] (GLFWwindow *window, int width, int height)
         {
             glViewport(0, 0, width, height);
+            ((Window*) glfwGetWindowUserPointer(window))->update_projection(width,
+                                                                            height);
         });
     glfwSetKeyCallback(window,
         [] (GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -59,6 +61,7 @@ Window::Window(std::string title, int width, int height)
         {
             ((Window*) glfwGetWindowUserPointer(window))->cursor_callback(x, y);
         });
+    glEnable(GL_DEPTH_TEST);
 }
 
 bool Window::time_for_next_update()
