@@ -28,8 +28,7 @@ public:
 protected:
     glm::mat4 model {glm::mat4(1.0f)};
 
-    void set_offset(float x, float y)
-        {model = glm::translate(model, glm::vec3(x, y, 0.0f));}
+    void set_offset(float x, float y);
 
     static unsigned int create_shader(std::string shader_source,
                                       ShaderType shader_type);

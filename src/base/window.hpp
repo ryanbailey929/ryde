@@ -26,7 +26,7 @@ public:
     virtual void mouse_callback(int button, int action, int mods) {}
     virtual void cursor_callback(double x, double y) {}
 
-    bool should_close() {return glfwWindowShouldClose(window);}
+    bool should_close();
     static bool time_for_next_update();
 };
 

@@ -83,6 +83,11 @@ unsigned int* Widget::create_quad_indices()
                                 0, 1, 3};
 }
 
+void Widget::set_offset(float x, float y)
+{
+    model = glm::translate(model, glm::vec3(x, y, 0.0f));
+}
+
 void Widget::set_color_uniform_3D(int color_uniform, std::array<int, 3> color_vec)
 {
     glUniform3f(color_uniform,

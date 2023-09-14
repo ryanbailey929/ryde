@@ -64,6 +64,11 @@ Window::Window(std::string title, int width, int height)
     glEnable(GL_DEPTH_TEST);
 }
 
+bool Window::should_close()
+{
+    return glfwWindowShouldClose(window);
+}
+
 bool Window::time_for_next_update()
 {
     double current_time = glfwGetTime();
