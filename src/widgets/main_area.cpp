@@ -1,6 +1,8 @@
 //author Ryan Bailey
 
 #include "main_area.hpp"
+#include "../shaders/headers/main_area_vertex_shader.hpp"
+#include "../shaders/headers/main_area_fragment_shader.hpp"
 
 #include "../base/widget.hpp"
 #include "../colors.hpp"
@@ -12,37 +14,18 @@
 
 MainArea::MainArea(float x, float y, float width, float height, float z)
 {
-    std::string vertex_shader_source
-    {
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 a_pos;\n"
-        "uniform mat4 model;\n"
-        "uniform mat4 projection;\n"
-        "void main()\n"
-        "{\n"
-        "    gl_Position = projection * model * vec4(a_pos, 1.0f);\n"
-        "}"
-    };
-    std::string fragment_shader_source
-    {
-        "#version 330 core\n"
-        "uniform vec3 color;\n"
-        "out vec4 frag_color;\n"
-        "void main()\n"
-        "{\n"
-        "    frag_color = vec4(color, 1.0f);\n"
-        "}"
-    };
     set_offset(x, y);
     if(!VAO_VBO_EBO_and_shaders_generated)
     {
         float* vertices {create_quad_vertices(0, 0, width, height, z)};
         unsigned int* indices = {create_quad_indices()};
         generate_VAO_VBO_EBO(vertices, 12, indices, 6, VAO, VBO, EBO);
-        unsigned int vertex_shader {create_shader(vertex_shader_source,
-                                                  ShaderType::VERTEX)};
-        unsigned int fragment_shader {create_shader(fragment_shader_source,
-                                                    ShaderType::FRAGMENT)};
+        unsigned int vertex_shader
+            {create_shader(Shaders::MainArea::vertex_shader_source,
+                           ShaderType::VERTEX)};
+        unsigned int fragment_shader
+            {create_shader(Shaders::MainArea::fragment_shader_source,
+                           ShaderType::FRAGMENT)};
         shader_program = create_program(vertex_shader, fragment_shader);
         glDeleteShader(vertex_shader);
         glDeleteShader(fragment_shader);
