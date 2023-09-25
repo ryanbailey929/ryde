@@ -96,6 +96,7 @@ int main(int argc, char** argv)
         "//(the above paths are relative to the root of the ryde git repository)\n\n"
         "#ifndef " + header_guards_identifier + "\n"
         "#define " + header_guards_identifier + "\n\n"
+        "#include <string>\n\n"
         "namespace Shaders::" + inner_namespace_identifier + "\n{\n"
         "    std::string " + ((is_vertex_shader) ? "vertex_shader_source\n"
                                                    : "fragment_shader_source\n") +
