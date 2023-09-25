@@ -98,8 +98,8 @@ int main(int argc, char** argv)
         "#define " + header_guards_identifier + "\n\n"
         "#include <string>\n\n"
         "namespace Shaders::" + inner_namespace_identifier + "\n{\n"
-        "    std::string " + ((is_vertex_shader) ? "vertex_shader_source\n"
-                                                   : "fragment_shader_source\n") +
+        "    inline static std::string " +
+        ((is_vertex_shader) ? "vertex_shader_source\n" : "fragment_shader_source\n") +
         "    {\n"
     };
 
