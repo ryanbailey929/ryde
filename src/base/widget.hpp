@@ -54,6 +54,8 @@ protected:
     //3D means color_vec has 3 Dimensions, and alpha should be set to 1.
     static void set_color_uniform_3D(int color_uniform, std::array<int, 3> color_vec);
     static void set_matrix_uniform_4D(int matrix_uniform, glm::mat4 matrix);
+    static void set_vec_uniform_2D(int uniform, float one, float two);
+    static void set_int_uniform_1D(int uniform, int one);
 };
 
 #endif

@@ -99,6 +99,16 @@ void Widget::set_matrix_uniform_4D(int matrix_uniform, glm::mat4 matrix)
     glUniformMatrix4fv(matrix_uniform, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
+void Widget::set_vec_uniform_2D(int uniform, float one, float two)
+{
+    glUniform2f(uniform, one, two);
+}
+
+void Widget::set_int_uniform_1D(int uniform, int one)
+{
+    glUniform1i(uniform, one);
+}
+
 void Widget::generate_VAO_VBO_EBO(float* vertices, int vertices_length,
                                   unsigned int* indices, int indices_length,
                                   unsigned int& VAO, unsigned int& VBO,

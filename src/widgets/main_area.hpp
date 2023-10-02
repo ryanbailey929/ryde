@@ -3,8 +3,14 @@
 #ifndef RYDE_WIDGETS_MAINAREA_HPP
 #define RYDE_WIDGETS_MAINAREA_HPP
 
+#include "../shaders/headers/basic_vertex_shader.hpp"
+#include "../shaders/headers/basic_fragment_shader.hpp"
+
 #include "../base/widget.hpp"
 #include "../colors.hpp"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

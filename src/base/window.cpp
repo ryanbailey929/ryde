@@ -9,6 +9,7 @@
 #include <string>
 
 Window::Window(std::string title, int width, int height)
+              : width {width}, height {height}
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -36,8 +37,9 @@ Window::Window(std::string title, int width, int height)
         [] (GLFWwindow *window, int width, int height)
         {
             glViewport(0, 0, width, height);
-            ((Window*) glfwGetWindowUserPointer(window))->update_projection(width,
-                                                                            height);
+            ((Window*) glfwGetWindowUserPointer(window))->width = width;
+            ((Window*) glfwGetWindowUserPointer(window))->height = height;
+            ((Window*) glfwGetWindowUserPointer(window))->update_projection();
         });
     glfwSetKeyCallback(window,
         [] (GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -62,6 +64,12 @@ Window::Window(std::string title, int width, int height)
             ((Window*) glfwGetWindowUserPointer(window))->cursor_callback(x, y);
         });
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    //this sets monitor_width and monitor_height
+    glfwGetMonitorWorkarea(glfwGetPrimaryMonitor(), nullptr, nullptr, &monitor_width,
+                           &monitor_height);
 }
 
 bool Window::should_close()
@@ -78,4 +86,24 @@ bool Window::time_for_next_update()
         return true;
     }
     return false;
+}
+
+int Window::get_width()
+{
+    return width;
+}
+
+int Window::get_height()
+{
+    return height;
+}
+
+int Window::get_monitor_width()
+{
+    return monitor_width;
+}
+
+int Window::get_monitor_height()
+{
+    return monitor_height;
 }

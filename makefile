@@ -1,6 +1,6 @@
 main_debug := build_debug/main.o
 base_debug := build_debug/base/window.o build_debug/base/widget.o
-widgets_debug := build_debug/widgets/main_area.o
+widgets_debug := build_debug/widgets/main_area.o build_debug/widgets/tab.o
 mw_debug := build_debug/main_window.o
 
 glad := lib/glad/glad.c
@@ -34,15 +34,23 @@ build_debug/main_window.o: src/main_window.cpp src/main_window.hpp src/colors.hp
 	$(CXX) -c src/main_window.cpp -o $(mw_debug) $(FLAGS_DEBUG)
 
 build_debug/widgets/main_area.o: src/widgets/main_area.cpp src/widgets/main_area.hpp \
-		src/colors.hpp src/shaders/headers/main_area_vertex_shader.hpp \
-		src/shaders/headers/main_area_fragment_shader.hpp
+		src/colors.hpp src/shaders/headers/basic_vertex_shader.hpp \
+		src/shaders/headers/basic_fragment_shader.hpp
 	$(CXX) -c src/widgets/main_area.cpp -o build_debug/widgets/main_area.o \
 	$(FLAGS_DEBUG)
 
+build_debug/widgets/tab.o: src/widgets/tab.cpp src/widgets/tab.hpp \
+		src/colors.hpp src/shaders/headers/basic_vertex_shader.hpp \
+		src/shaders/headers/tab_fragment_shader.hpp
+	$(CXX) -c src/widgets/tab.cpp -o build_debug/widgets/tab.o $(FLAGS_DEBUG)
+
 #shader headers
 
-src/shaders/headers/main_area_vertex_shader.hpp: src/shaders/glsl/main_area.vert
-	./bin/create_shader_header src/shaders/glsl/main_area.vert
+src/shaders/headers/basic_vertex_shader.hpp: src/shaders/glsl/basic.vert
+	./bin/create_shader_header src/shaders/glsl/basic.vert
 
-src/shaders/headers/main_area_fragment_shader.hpp: src/shaders/glsl/main_area.frag
-	./bin/create_shader_header src/shaders/glsl/main_area.frag
+src/shaders/headers/basic_fragment_shader.hpp: src/shaders/glsl/basic.frag
+	./bin/create_shader_header src/shaders/glsl/basic.frag
+
+src/shaders/headers/tab_fragment_shader.hpp: src/shaders/glsl/tab.frag
+	./bin/create_shader_header src/shaders/glsl/tab.frag
