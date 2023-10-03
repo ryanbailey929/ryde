@@ -16,7 +16,7 @@
 #include <GLFW/glfw3.h>
 
 Tab::Tab(float x, float y, float width, float height, float z, MainWindow *main_window)
-    : x {x}, y {y}, width {width}, height {height}, main_window {main_window}
+        : x {x}, y {y}, width {width}, height {height}, main_window {main_window}
 {
     set_offset(x, y);
     if(!VAO_VBO_EBO_and_shaders_generated)

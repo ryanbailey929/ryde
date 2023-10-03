@@ -35,7 +35,7 @@ build_debug/main_window.o: src/main_window.cpp src/main_window.hpp src/colors.hp
 
 build_debug/widgets/main_area.o: src/widgets/main_area.cpp src/widgets/main_area.hpp \
 		src/colors.hpp src/shaders/headers/basic_vertex_shader.hpp \
-		src/shaders/headers/basic_fragment_shader.hpp
+		src/shaders/headers/main_area_fragment_shader.hpp
 	$(CXX) -c src/widgets/main_area.cpp -o build_debug/widgets/main_area.o \
 	$(FLAGS_DEBUG)
 
@@ -54,3 +54,6 @@ src/shaders/headers/basic_fragment_shader.hpp: src/shaders/glsl/basic.frag
 
 src/shaders/headers/tab_fragment_shader.hpp: src/shaders/glsl/tab.frag
 	./bin/create_shader_header src/shaders/glsl/tab.frag
+
+src/shaders/headers/main_area_fragment_shader.hpp: src/shaders/glsl/main_area.frag
+	./bin/create_shader_header src/shaders/glsl/main_area.frag

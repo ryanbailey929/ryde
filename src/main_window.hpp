@@ -19,8 +19,9 @@
 #include <array>
 #include <memory>
 
-class Tab; //forward declaration to deal with circular dependency between Tab and
-           //MainWindow
+//forward declarations to deal with circular dependencies
+class MainArea;
+class Tab;
 
 class MainWindow : public Window
 {

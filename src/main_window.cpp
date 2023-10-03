@@ -28,7 +28,7 @@ MainWindow::MainWindow(std::string title, int width, int height)
 
     main_area = std::unique_ptr<MainArea> {new MainArea
         {main_area_x, main_area_y, main_area_width, main_area_height,
-         MainWindowZ::MAIN_AREA}};
+         MainWindowZ::MAIN_AREA, this}};
 
     tab_1 = std::unique_ptr<Tab> {new Tab {main_area_x, main_area_height,
                                            200, monitor_height - main_area_height,
