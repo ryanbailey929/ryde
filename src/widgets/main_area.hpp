@@ -32,7 +32,8 @@ class MainArea : public Widget
 public:
     MainArea(float x, float y, float width, float height, float z,
              MainWindow *main_window);
-    void draw(glm::mat4 projection);
+    virtual void draw(glm::mat4 projection);
+    virtual bool is_in_hitbox(int cursor_x, int cursor_y);
 };
 
 #endif

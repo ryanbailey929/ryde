@@ -63,3 +63,8 @@ void MainArea::draw(glm::mat4 projection)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
+
+bool MainArea::is_in_hitbox(int cursor_x, int cursor_y)
+{
+    return is_in_rectangular_hitbox(cursor_x, cursor_y, x, y, width, height);
+}

@@ -29,15 +29,13 @@ class MainWindow : public Window
     std::unique_ptr<MainArea> main_area;
     std::unique_ptr<Tab> tab_1;
     float main_area_x, main_area_y, main_area_width, main_area_height;
+    int cursor_x, cursor_y;
+
+    void handle_events();
 public:
     MainWindow(std::string title, int width, int height);
     virtual void update();
     virtual void update_projection();
-    virtual void key_callback(int key, int action, int mods);
-    virtual void char_callback(unsigned int codepoint);
-    virtual void mouse_callback(int button, int action, int mods);
-    virtual void cursor_callback(double x, double y);
-
 };
 
 //a namespace containing a Z value for every widget in the main window.

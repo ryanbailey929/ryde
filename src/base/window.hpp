@@ -3,11 +3,14 @@
 #ifndef RYDE_BASE_WINDOW_HPP
 #define RYDE_BASE_WINDOW_HPP
 
+#include "event.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <string>
+#include <list>
 
 class Window
 {
@@ -26,6 +29,9 @@ protected:
     //monitor_height are clear _enough_ names to use here, technically they only contain
     //the monitor work area.
     int width, height, monitor_width, monitor_height;
+    Event* cursor_event;
+    std::list<Event*> events;
+    bool event_has_occured {false};
 public:
     Window(std::string title, int width, int height);
     virtual void update()=0;
@@ -33,11 +39,13 @@ public:
     //update_projection is called.
     virtual void update_projection()=0;
     
-    //the below functions are  called by GLFW
-    virtual void key_callback(int key, int action, int mods) {}
-    virtual void char_callback(unsigned int codepoint) {}
-    virtual void mouse_callback(int button, int action, int mods) {}
-    virtual void cursor_callback(double x, double y) {}
+    //the below functions are called by GLFW
+    void key_callback(int key, int action, int mods);
+    void char_callback(unsigned int codepoint);
+    void mouse_callback(int button, int action, int mods);
+    void cursor_callback(double x, double y);
+    void scroll_callback(double x, double y);
+    //functions below here aren't called by GLFW
 
     bool should_close();
     static bool time_for_next_update();

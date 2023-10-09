@@ -57,6 +57,11 @@ void Tab::draw(glm::mat4 projection)
     glBindVertexArray(0);
 }
 
+bool Tab::is_in_hitbox(int cursor_x, int cursor_y)
+{
+    return is_in_rectangular_hitbox(cursor_x, cursor_y, x, y, width, height);
+}
+
 void Tab::translate(float new_x)
 {
     set_offset(new_x - x, y);

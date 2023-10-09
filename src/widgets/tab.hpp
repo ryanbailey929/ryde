@@ -30,6 +30,7 @@ class Tab : public Widget
 public:
     Tab(float x, float y, float width, float height, float z, MainWindow *main_window);
     virtual void draw(glm::mat4 projection);
+    virtual bool is_in_hitbox(int cursor_x, int cursor_y);
     void translate(float new_x);
     void resize(float new_width);
 };

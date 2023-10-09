@@ -2,11 +2,14 @@
 
 #include "window.hpp"
 
+#include "event.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <string>
+#include <list>
 
 Window::Window(std::string title, int width, int height)
               : width {width}, height {height}
@@ -63,6 +66,11 @@ Window::Window(std::string title, int width, int height)
         {
             ((Window*) glfwGetWindowUserPointer(window))->cursor_callback(x, y);
         });
+    glfwSetScrollCallback(window,
+        [] (GLFWwindow *window, double x, double y)
+        {
+            ((Window*) glfwGetWindowUserPointer(window))->scroll_callback(x, y);
+        });
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -86,6 +94,36 @@ bool Window::time_for_next_update()
         return true;
     }
     return false;
+}
+
+void Window::key_callback(int key, int action, int mods)
+{
+    events.push_back(new KeyEvent(key, action, mods));
+    event_has_occured = true;
+}
+
+void Window::char_callback(unsigned int codepoint)
+{
+    events.push_back(new CharEvent(codepoint));
+    event_has_occured = true;
+}
+
+void Window::mouse_callback(int button, int action, int mods)
+{
+    events.push_back(new MouseEvent(button, action, mods));
+    event_has_occured = true;
+}
+
+void Window::cursor_callback(double x, double y)
+{
+    cursor_event = new CursorEvent(x, monitor_height - y);
+    event_has_occured = true;
+}
+
+void Window::scroll_callback(double x, double y)
+{
+    events.push_back(new ScrollEvent(x, y));
+    event_has_occured = true;
 }
 
 int Window::get_width()

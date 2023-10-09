@@ -43,6 +43,12 @@ void MainWindow::update()
 {
     glfwPollEvents();
 
+    if(event_has_occured)
+    {
+        handle_events();
+        event_has_occured = false;
+    }
+
     glClearColor((Colors::side_panel_background_color[0]/255.0f),
                  (Colors::side_panel_background_color[1]/255.0f),
                  (Colors::side_panel_background_color[2]/255.0f),
@@ -62,22 +68,32 @@ void MainWindow::update_projection()
                             -MainWindowZ::MAX_Z);
 }
 
-void MainWindow::key_callback(int key, int action, int mods)
+void MainWindow::handle_events()
 {
-
-}
-
-void MainWindow::char_callback(unsigned int codepoint)
-{
-
-}
-
-void MainWindow::mouse_callback(int button, int action, int mods)
-{
-
-}
-
-void MainWindow::cursor_callback(double x, double y)
-{
-
+    //only the last cursor event registered between updates is necessary, so we
+    //only keep the last one (I don't even know if multiple cursor updates per
+    //window update is a thing, but I'm doing it this way just in case).
+    //We put it first so that all events after it will use the correct cursor location.
+    if(cursor_event) //only add the cursor event if there is one
+        events.push_front(cursor_event);
+    for(std::list<Event*>::iterator e_it {events.begin()}; e_it != events.end(); ++e_it)
+    {
+        if((*e_it)->get_type() == EventType::CURSOR)
+        {
+            cursor_x = (int) ((CursorEvent*) (*e_it))->get_x();
+            cursor_y = (int) ((CursorEvent*) (*e_it))->get_y();
+        }
+        if(main_area->is_in_hitbox(cursor_x, cursor_y))
+        {
+            std::cout << "[Main Area] ";
+            print_event((*e_it));
+        }
+        if(tab_1->is_in_hitbox(cursor_x, cursor_y))
+        {
+            std::cout << "[Tab 1] ";
+            print_event((*e_it));
+        }
+    }
+    cursor_event = nullptr;
+    events.clear();
 }

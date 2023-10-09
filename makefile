@@ -1,5 +1,6 @@
 main_debug := build_debug/main.o
-base_debug := build_debug/base/window.o build_debug/base/widget.o
+base_debug := build_debug/base/window.o build_debug/base/widget.o \
+              build_debug/base/event.o
 widgets_debug := build_debug/widgets/main_area.o build_debug/widgets/tab.o
 mw_debug := build_debug/main_window.o
 
@@ -29,6 +30,9 @@ build_debug/base/window.o: src/base/window.cpp src/base/window.hpp
 
 build_debug/base/widget.o: src/base/widget.cpp src/base/widget.hpp
 	$(CXX) -c src/base/widget.cpp -o build_debug/base/widget.o $(FLAGS_DEBUG)
+
+build_debug/base/event.o: src/base/event.cpp src/base/event.hpp
+	$(CXX) -c src/base/event.cpp -o build_debug/base/event.o $(FLAGS_DEBUG)
 
 build_debug/main_window.o: src/main_window.cpp src/main_window.hpp src/colors.hpp
 	$(CXX) -c src/main_window.cpp -o $(mw_debug) $(FLAGS_DEBUG)

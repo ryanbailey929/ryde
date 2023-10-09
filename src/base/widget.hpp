@@ -25,6 +25,7 @@ class Widget
 public:
     Widget()=default;
     virtual void draw(glm::mat4 projection)=0;
+    virtual bool is_in_hitbox(int cursor_x, int cursor_y)=0;
 protected:
     glm::mat4 model {glm::mat4(1.0f)};
 
@@ -56,6 +57,9 @@ protected:
     static void set_matrix_uniform_4D(int matrix_uniform, glm::mat4 matrix);
     static void set_vec_uniform_2D(int uniform, float one, float two);
     static void set_int_uniform_1D(int uniform, int one);
+
+    static bool is_in_rectangular_hitbox(int cursor_x, int cursor_y, float x, float y,
+                                         float width, float height);
 };
 
 #endif

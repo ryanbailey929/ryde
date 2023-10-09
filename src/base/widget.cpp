@@ -135,3 +135,14 @@ void Widget::generate_VAO_VBO_EBO(float* vertices, int vertices_length,
     delete[] vertices;
     delete[] indices;
 }
+
+bool Widget::is_in_rectangular_hitbox(int cursor_x, int cursor_y, float x, float y,
+                                      float width, float height)
+{
+    if(cursor_x > x && cursor_x < (x + width) && cursor_y > y &&
+       cursor_y < (y + height))
+    {
+        return true;
+    }
+    return false;
+}
