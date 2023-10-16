@@ -88,25 +88,34 @@ void Widget::set_offset(float x, float y)
     model = glm::translate(model, glm::vec3(x, y, 0.0f));
 }
 
-void Widget::set_color_uniform_3D(int color_uniform, std::array<int, 3> color_vec)
+void Widget::set_color_uniform_3D(unsigned int shader_program,
+                                  std::string color_uniform_location,
+                                  std::array<int, 3> color_vec)
 {
-    glUniform3f(color_uniform,
+    glUniform3f(glGetUniformLocation(shader_program, color_uniform_location.c_str()),
                 color_vec[0]/255.0f, color_vec[1]/255.0f, color_vec[2]/255.0f);
 }
 
-void Widget::set_matrix_uniform_4D(int matrix_uniform, glm::mat4 matrix)
+void Widget::set_matrix_uniform_4D(unsigned int shader_program,
+                                   std::string matrix_uniform_location,
+                                   glm::mat4 matrix)
 {
-    glUniformMatrix4fv(matrix_uniform, 1, GL_FALSE, glm::value_ptr(matrix));
+    glUniformMatrix4fv(glGetUniformLocation(shader_program,
+                                            matrix_uniform_location.c_str()),
+                       1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-void Widget::set_vec_uniform_2D(int uniform, float one, float two)
+void Widget::set_vec_uniform_2D(unsigned int shader_program,
+                                std::string uniform_location, float one, float two)
 {
-    glUniform2f(uniform, one, two);
+    glUniform2f(glGetUniformLocation(shader_program, uniform_location.c_str()),
+                                     one, two);
 }
 
-void Widget::set_int_uniform_1D(int uniform, int one)
+void Widget::set_int_uniform_1D(unsigned int shader_program,
+                                std::string uniform_location, int one)
 {
-    glUniform1i(uniform, one);
+    glUniform1i(glGetUniformLocation(shader_program, uniform_location.c_str()), one);
 }
 
 void Widget::generate_VAO_VBO_EBO(float* vertices, int vertices_length,

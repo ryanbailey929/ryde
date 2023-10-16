@@ -50,13 +50,21 @@ protected:
                                      unsigned int* indices, int indices_length,
                                      unsigned int& VAO, unsigned int& VBO,
                                      unsigned int& EBO);
+
+    //glUseProgram SHOULD BE CALLED BEFORE CALLING THE SET UNIFORM FUNCTIONS
+
     //divides the elements of color_vec by 255, then set's color_uniform to the result.
-    //glUseProgram should obviously be called before setting uniforms.
     //3D means color_vec has 3 Dimensions, and alpha should be set to 1.
-    static void set_color_uniform_3D(int color_uniform, std::array<int, 3> color_vec);
-    static void set_matrix_uniform_4D(int matrix_uniform, glm::mat4 matrix);
-    static void set_vec_uniform_2D(int uniform, float one, float two);
-    static void set_int_uniform_1D(int uniform, int one);
+    static void set_color_uniform_3D(unsigned int shader_program,
+                                     std::string color_uniform_location,
+                                     std::array<int, 3> color_vec);
+    static void set_matrix_uniform_4D(unsigned int shader_program,
+                                      std::string matrix_uniform_location,
+                                      glm::mat4 matrix);
+    static void set_vec_uniform_2D(unsigned int shader_program,
+                                   std::string uniform_location, float one, float two);
+    static void set_int_uniform_1D(unsigned int shader_program,
+                                   std::string uniform_location, int one);
 
     static bool is_in_rectangular_hitbox(int cursor_x, int cursor_y, float x, float y,
                                          float width, float height);
