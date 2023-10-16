@@ -33,6 +33,7 @@ Tab::Tab(float x, float y, float width, float height, float z, MainWindow *main_
         shader_program = create_program(vertex_shader, fragment_shader);
         glDeleteShader(vertex_shader);
         glDeleteShader(fragment_shader);
+        VAO_VBO_EBO_and_shaders_generated = true;
     }
 }
 
